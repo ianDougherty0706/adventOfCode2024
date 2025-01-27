@@ -1,33 +1,55 @@
-const fs = require('fs');
-const readline = require('readline');
-const path = require('path');
+const fs = require("fs");
+const readline = require("readline");
+const path = require("path");
+const { type } = require("os");
 
-const filePath = path.join(__dirname, 'input.txt');
+const filePath = path.join(__dirname, "input.txt");
 
 const fileStream = fs.createReadStream(filePath);
 
 let listOne = [];
 let listTwo = [];
 
-// const sortArray = (array) => {
+const sortArray = (array, length) => {
+  for (let v = 0; v < length; v++) {
+    for (let i = 0; i < length; i++) {
+      if (array[i] > array[i + 1]) {
+        let tempIndex = array[i + 1];
+        array[i + 1] = array[i];
+        array[i] = tempIndex;
+      }
+    }
+  }
+};
 
-//   let (int i = 0;)
-// }
-// TODO: Make the bubble sort algorithm using a for loop with a separate length variable
+const findDistances = (arrayOne, arrayTwo, length) => {
+  let totalDistance = 0;
+  for (let i = 0; i < length; i++){
+    totalDistance += (Math.abs(arrayOne[i] - arrayTwo[i]))
+  };
+  return totalDistance;
+};
 
 const reader = readline.createInterface({
   input: fileStream,
-  crlfDelay: Infinity
+  crlfDelay: Infinity,
 });
 
-reader.on('line', (line) => {
+reader.on("line", (line) => {
   listOne.push(parseInt(line.slice(0, 5)));
   listTwo.push(parseInt(line.slice(8, 13)));
 });
 
-reader.on('close', () => {
-  console.log("\n\nCompleted");
+reader.on("close", () => {
+  console.log("\nFiles read\n");
 
-  console.log(listOne);
-  console.log(listTwo);
+  let listLength = listOne.length;
+
+  sortArray(listOne, listLength);
+  console.log("\nList One Sorted\n");
+
+  sortArray(listTwo, listLength);
+  console.log("\nList Two Sorted\n");
+
+  console.log(`The distance is: \n ${findDistances(listOne, listTwo, listLength)}\n`);
 });
