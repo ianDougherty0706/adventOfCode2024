@@ -1,7 +1,6 @@
 const fs = require("fs");
 const readline = require("readline");
 const path = require("path");
-const { type } = require("os");
 
 const filePath = path.join(__dirname, "input.txt");
 
@@ -41,15 +40,10 @@ reader.on("line", (line) => {
 });
 
 reader.on("close", () => {
-  console.log("\nFiles read\n");
-
   let listLength = listOne.length;
 
   sortArray(listOne, listLength);
-  console.log("\nList One Sorted\n");
-
   sortArray(listTwo, listLength);
-  console.log("\nList Two Sorted\n");
 
   console.log(`The distance is: \n ${findDistances(listOne, listTwo, listLength)}\n`);
 });
